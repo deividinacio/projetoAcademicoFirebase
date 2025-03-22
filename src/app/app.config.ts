@@ -1,10 +1,17 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { environment } from '../environments/environment.development';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideFirebaseApp(() => initializeApp({ projectId: "projacademico-51345", appId: "1:834596079083:web:8a00386c81e0c7dda0c5ae", storageBucket: "projacademico-51345.firebasestorage.app", apiKey: "AIzaSyCjdHiwAI2p0uN3DNtoFM73CB7vhmi_7-Q", authDomain: "projacademico-51345.firebaseapp.com", messagingSenderId: "834596079083" })), provideFirestore(() => getFirestore())]
+  providers: [provideRouter(routes), 
+    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideFirestore(() => getFirestore()), provideAnimationsAsync(),
+    provideAuth(() => getAuth())
+  ]
 };
